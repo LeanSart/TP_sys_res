@@ -1,0 +1,2 @@
+L'objectif de ce module est la connaissance des mécanismes et processus logiciels bas-niveau utilisés dans les systèmes modernes.
+Deux niveaux sont considérés : un niveau machine, et un niveau réseau.
