@@ -13,6 +13,8 @@ typedef struct HEADER_TAG {
 
 extern HEADER *first_header;
 
+void *malloc(size_t size);
+void free(void *ptr);
 void *malloc_3is(size_t block_size);
 void free_3is(void *ptr);
 int afficheliste();

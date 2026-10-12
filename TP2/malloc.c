@@ -2,6 +2,14 @@
 #include <stdio.h>
 HEADER *first_header = NULL;
 
+void *malloc(size_t size) {
+    return malloc_3is(size);
+}
+
+void free(void *ptr) {
+    free_3is(ptr);
+}
+
 void *malloc_3is(size_t block_size){
     if(block_size == 0){ //Renvoie NULL si la taille du bloc demandé est de 0
         return NULL;
