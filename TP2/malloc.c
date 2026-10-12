@@ -52,21 +52,26 @@ int afficheliste(){ //Affiche toute la lsite chainée à partir du noeud de tete
     return 0;
 }
 
-/*
-HEADER getTete(){
-    if(first_header == NULL){
-        first_header = creerTete;
+int checkblock(void *ptr){ //Renvoie 0 : Aucun débordement renvoie 1 : débordement en amont 
+// renvoie 2 : débordement en aval renvoie 3 : débordement en amont et en aval
+    if(ptr == NULL){
+        return -1;
     }
-    return *first_header;
+    HEADER *header = ((HEADER *)ptr)-1;
+    long *magic_ptr = (long *)((char *)ptr + header->bloc_size);
+    if(header->magic_number != MAGIC_NUMBER){
+        if(magic_ptr != MAGIC_NUMBER){
+            return 3;
+        }
+        return 1;
+    }
+    elif(magic_ptr != MAGIC_NUMBER){
+        return 2;
+    }
+    return 0;
 }
 
-HEADER creerTete(){
-    first_header->bloc_size = ;
-    first_header->ptr_next = NULL;
-    first_header->magic_number = MAGIC_NUMBER; 
-}
 
-*/
 
 
 
