@@ -23,5 +23,11 @@ int main(){
     free_3is(test3);
     printf("Liste chainée des bloc libérés : adresse de tête = %p \n", first_header);
     afficheliste();
+    void *test4 = malloc_3is(10);
+    printf("Allocation : adresse = %p \n", test4);
+    afficheliste();
+    void *test5 = malloc_3is(999);
+    printf("Allocation : adresse = %p \n", test5);
+    afficheliste();
     return 0;
 }   

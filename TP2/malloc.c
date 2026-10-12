@@ -6,7 +6,28 @@ void *malloc_3is(size_t block_size){
     if(block_size == 0){ //Renvoie NULL si la taille du bloc demandé est de 0
         return NULL;
     }
-    void *total =  sbrk(sizeof(HEADER) + block_size + sizeof(MAGIC_NUMBER));
+    if(first_header != NULL){
+        HEADER *noeud = first_header;
+        bool block_flag = false;
+        while((noeud != NULL)){
+            if(noeud->bloc_size == block_size){
+                block_flag = true;
+                break;
+            }
+            noeud = noeud->ptr_next;
+        }
+        if(!block_flag){
+            if(noeud->bloc_size == block_size){
+                block_flag = true;
+            }
+        }
+        if(block_flag){
+            void *block_ptr = (void *)(noeud + 1);
+            supprnoeud(block_ptr);
+            return block_ptr;
+        } 
+    }
+    void *total =  sbrk(sizeof(HEADER) + block_size + sizeof(MAGIC_NUMBER)); //Si aucun bloc de la bonne taille n'existe déjà on en crée un nouveau sur le tas
     if(total == (void *)-1){ //Renvoie NULL s'il n'y a plus d'espace mémoire système
         return NULL;
     }
@@ -19,7 +40,6 @@ void *malloc_3is(size_t block_size){
     *magic_ptr = MAGIC_NUMBER; 
     return block_ptr; //Renvoie le pointeur du bloc
 }
-
 
 
 void free_3is(void *ptr){
@@ -38,7 +58,7 @@ void free_3is(void *ptr){
     }
 }
 
-int afficheliste(){ //Affiche toute la lsite chainée à partir du noeud de tete jusqu'au noeud de fin
+int afficheliste(){ //Affiche toute la liste chainée à partir du noeud de tete jusqu'au noeud de fin
     HEADER *noeud = first_header;
     if(noeud == NULL){
         printf("Liste vide\n");
@@ -60,17 +80,34 @@ int checkblock(void *ptr){ //Renvoie 0 : Aucun débordement renvoie 1 : déborde
     HEADER *header = ((HEADER *)ptr)-1;
     long *magic_ptr = (long *)((char *)ptr + header->bloc_size);
     if(header->magic_number != MAGIC_NUMBER){
-        if(magic_ptr != MAGIC_NUMBER){
+        if(*magic_ptr != MAGIC_NUMBER){
             return 3;
         }
         return 1;
     }
-    elif(magic_ptr != MAGIC_NUMBER){
+    else if(*magic_ptr != MAGIC_NUMBER){
         return 2;
     }
     return 0;
 }
 
+void supprnoeud(void *ptr){
+    if((ptr == NULL) || (first_header == NULL)){
+        return;
+    }
+    HEADER *header = ((HEADER *)ptr)-1;
+    if(header == first_header){
+        first_header = header->ptr_next;
+    }
+    else{
+        HEADER *prev_header = first_header;
+        while(prev_header->ptr_next != header){
+            prev_header = prev_header->ptr_next;
+        }
+        prev_header->ptr_next = header->ptr_next;
+    }
+    header->ptr_next = NULL;
+}
 
 
 

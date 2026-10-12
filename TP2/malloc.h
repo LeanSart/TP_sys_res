@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#define MAGIC_NUMBER 0xBADA110CBADA110CL
+#define MAGIC_NUMBER ((long)0xBADA110CBADA110CL)
 
 typedef struct HEADER_TAG {
     struct HEADER_TAG * ptr_next; /* pointe sur le prochain bloc libre */
@@ -15,3 +15,4 @@ extern HEADER *first_header;
 void *malloc_3is(size_t block_size);
 void free_3is(void *ptr);
 int afficheliste();
+void supprnoeud(void *ptr);
