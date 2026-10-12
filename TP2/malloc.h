@@ -10,7 +10,8 @@ typedef struct HEADER_TAG {
     long magic_number; /* 0xBADA110CBADA110CL */
 } HEADER;
 
-static HEADER *first_header = NULL;
+extern HEADER *first_header;
 
 void *malloc_3is(size_t block_size);
 void free_3is(void *ptr);
+int afficheliste();
