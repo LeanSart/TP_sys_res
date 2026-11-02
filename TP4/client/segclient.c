@@ -34,14 +34,14 @@ void boucle(segment *seg, int semid){
     acq_sem(semid,res_ok);
     lib_sem(semid,res_ok);
     lib_sem(semid,seg_dispo);
-    if(result != mean){
+    if(result == mean){
         printf("[Client %d] resultat serveur\t: %ld\nresultat client\t\t: %ld\r\n",getpid(), result, mean);
     }
 }
     
 int main(){
 
-    int nb_clients = 50000; 
+    int nb_clients = 5; 
 
     int shmid = shmget(cle, sizeof(segment), 0666);
     if (shmid == -1) {
