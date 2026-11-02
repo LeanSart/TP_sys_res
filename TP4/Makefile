@@ -1,0 +1,23 @@
+SRC = $(wildcard client/*.c)
+HEADERS = $(wildcard server/*.h)
+COMPILED = $(wildcard server/*.a)
+BIN = main
+
+CC = gcc
+CFLAGS += -Wall -Wextra -g -Iserver -fdiagnostics-color=always 
+#CFLAGS += --std=c99
+
+all: $(BIN)
+
+$(BIN): $(SRC) $(HEADERS) $(COMPILED)
+	$(CC) $(CFLAGS) $^ -o $@
+	
+clean:
+	rm -f $(BIN)
+	rm -f *.o
+	rm -f *~
+
+indent:
+	indent -linux -i4 -nut -ts2 *.c
+
+.PHONY: all clean indent
